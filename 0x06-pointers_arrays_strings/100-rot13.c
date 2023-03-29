@@ -1,24 +1,32 @@
 #include "main.h"
-
 /**
- * rot13 - rotate characters 13 places in the alphabet
- * @s: string
- * Return: string `s` rotated
+ * *rot13 - function that encodes a string using rot13.
+ * @s: pointer pointed to the variable s , of type character
+ * Return: Pointer P , pointed to the variable s of type char.
+ * Update V2.0 : using Pointers instead of arrays to minimize the use
+ * of allocated memory and to improve the esthetic and simplicity of the code.
  */
-
 char *rot13(char *s)
 {
-	int i;
-	char storeh[] = "NOPQRSTUVWXYZABCDEFGHIJKLM";
-	char storel[] = "nopqrstuvwxyzabcdefghijklm";
+int i;
+char *p = s;
 
-	for (i = 0; s[i] != '\0'; i++)
+char *original = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+char *code = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+
+while (*s != '\0')
+{
+	i = 0;
+	while (i < 53)
 	{
-		if ((s[i] > 64 && s[i] < 91) || (s[i] > 96 && s[i] < 123))
-		{
-			s[i] = (s[i] - 65 > 25) ?
-				storel[s[i] - 97] : storeh[s[i] - 65];
-		}
+		if (*s == original[i])
+	{
+			*s = code[i];
+				break;
 	}
-	return (s);
+		i++;
+	}
+		s++;
+	}
+return (p);
 }
