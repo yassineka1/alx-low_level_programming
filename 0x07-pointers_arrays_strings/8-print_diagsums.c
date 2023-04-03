@@ -13,17 +13,20 @@ void print_diagsums(int *a, int size)
 {
 	int l;
 	int m;
+	int o;
 	int k = 0;
 	int p = 0;
 
 	for (l = 0; l < size; l++)
 	{
-		k = k + *(a + l * sizeof(int));
+		o = (l * size) + l;
+		k += *(a + o);
 	}
 
 	for (m = 0; m < size; m++)
 	{
-		p = p + *(a + (size * m) + (size - m - 1));
+		o = (m * size) + (size - 1 - m);
+		p += *(a + o);
 	}
 	printf("%d, %d\n", k, p);
 }
