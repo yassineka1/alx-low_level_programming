@@ -1,5 +1,6 @@
 #include "maih.h"
 #include <stdlib>
+#include <stdio>
 
 /**
  *_calloc - allocates memory for array
@@ -10,22 +11,24 @@
 
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	char *array;
-	unsigned int i1, i2;
-
-	i2 = nmemb * size;
+	char *ptr;
+	unsigned int i;
 
 	if (nmemb == 0 || size == 0)
 		return (NULL);
 
-	array = malloc(i2);
+	ptr = malloc(nmemb * size);
 
-	if (array == NULL)
+	if (ptr == NULL)
+	{
 		return (NULL);
+	}
+	i = 0;
+	while (i < nmemb * size)
+	{
+		ptr[i] = 0;
+		i++;
+	}
 
-
-	for (i = 0; i < i2; i++)
-		array[i] = 0;
-
-	return (array);
+	return (ptr);
 }
