@@ -10,21 +10,22 @@
 
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	void *array;
-	char *c;
-	unsigned int i;
+	char *array;
+	unsigned int i1, i2;
+
+	i2 = nmemb * size;
 
 	if (nmemb == 0 || size == 0)
 		return (NULL);
 
-	array = malloc(size * nmemb);
+	array = malloc(i2);
 
 	if (array == NULL)
 		return (NULL);
 
-	c = array;
 
-	for (i = 0; i < (size * nmemb); i++)
-		c[i] = '\0';
+	for (i = 0; i < i2; i++)
+		array[i] = 0;
+
 	return (array);
 }
