@@ -1,6 +1,57 @@
 #include "variadic_functions.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
+
+/**
+ * printf_c - print a character.
+ * @arg_variables: list of arguments.
+ * Return: void
+ */
+
+void printf_c(va_list arg_variables)
+{
+	printf("%c", va_arg(arg_variables, int));
+}
+
+/**
+ * printf_i - print an integer.
+ * @arg_variables: arguments
+ * Return: void
+ */
+
+void printf_i(va_list arg_variables)
+{
+	printf("%i", va_arg(arg_variables, int));
+}
+
+/**
+ * printf_f - print a float.
+ *
+ * @arg_variables: list of arguments.
+ */
+
+void printf_f(va_list arg_variables)
+{
+	printf("%f", va_arg(arg_variables, double));
+}
+
+/**
+ * printf_s - print a string.
+ * @arg_variables: arguments
+ * Return: void
+ */
+
+void printf_s(va_list arg_variables)
+{
+	char *p;
+
+	p = va_arg(arg_variables, char *);
+
+	if (p == NULL)
+	p = "(nil)";
+	printf("%s", p);
+}
 
 /**
  * print_all - Prints any type of parameters
@@ -11,43 +62,37 @@
 
 void print_all(const char * const format, ...)
 {
-	int i;
-	char *ptr;
-	char *space;
-	va_list numb;
-
-	va_start(numb, format);
-	i = 0;
-
+	int i = 0;
+	int j = 0;
+	char *sep = "";
+	va_list arg_variables;
+	/*Array of struct containing the different variable types accepted*/
+	variable_type var[] = {
+	{"c", printf_c},
+	{"i", printf_i},
+	{"f", printf_f},
+	{"s", printf_s},
+	{NULL, NULL} };
+	/*Init arg list to retrieve the add arguments after parameter format*/
+	va_start(arg_variables, format);
+	/*test if both pointer and string different than NULL*/
+	j = 0;
 	while (format && format[j])
 	{
-		space = "";
-
-		if (format[i + 1])
-			space = ", ";
-		switch (format[i])
+		i = 0;
+		while (var[i].character)
 		{
-
-		case 'c':
-			printf("%c%s", va_arg(numb, int), space);
-			break;
-
-		case 'i':
-			printf("%d%s", va_arg(numb, int), space);
-			break;
-
-		case 'f':
-			printf("%f%s", va_arg(numb, double), space);
-			break;
-
-		case 's':
-			ptr = va_arg(numb, char *);
-			if (!ptr || !*ptr)
-				ptr = "(nil)";
-			printf("%s%s", ptr, space);
-			break;
-		}
+			if (*(format + j) == *(var[i].character))
+			{
+				printf("%s", sep);
+					(var[i].printf)(arg_variables);
+						sep = ", ";
+							break;
+			}
 		i++;
+		}
+		j++;
 	}
 	printf("\n");
+	va_end(arg_variables);
 }
